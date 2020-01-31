@@ -35,8 +35,15 @@ if __name__ == "__main__":
 
 
     print(G.nodes.data())
-    print(list(G.neighbors(0)))
-    print([node if len(list(G.neighbors(node))) > 0 else None for node in G.nodes])
+    print(G.out_edges([0]))
+    #print(list(G.neighbors(0)))
+    #print([node if len(list(G.neighbors(node))) > 0 else None for node in G.nodes])
+
+    print('All path from start to hp-m300 MAG')
+    for path in nx.all_simple_paths(G, source=0, target=machine_name_list.index('Magazine HP-M300')):
+        translated_path = [machine_name_list[i] for i in path]
+        print(translated_path)
+
     edges = G.edges()
     weights = [G[u][v]['sample_count'] for u, v in edges]
     weights = [weight / max(weights) * 5 for weight in weights]
@@ -44,9 +51,12 @@ if __name__ == "__main__":
             pos=nx.spring_layout(G),
             labels=nx.get_node_attributes(G, 'name'),
             #nodelist=[node if len(list(G.neighbors(node))) > 0 else None for node in G.nodes],
+            arrowsize=15,
             font_size=8,
             node_size=75,
             width=weights,
             edge_color='r'
             )
+
+
     plt.show()
