@@ -3,12 +3,11 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 
+Start_Machine_Number = 989
+End_Machine_Number = 1036
+Total_Machine = End_Machine_Number - Start_Machine_Number + 1 + 1
 
-
-if __name__ == "__main__":
-    Start_Machine_Number = 989
-    End_Machine_Number = 1036
-    Total_Machine = End_Machine_Number - Start_Machine_Number + 1 + 1
+def calculate_adjacency_matrix():
     Adjancency_Matrix = [[0 for i in range(Total_Machine)] for j in range(Total_Machine)]
 
     with open('sample_flow.csv', mode='r') as csv_file:
@@ -33,6 +32,11 @@ if __name__ == "__main__":
                 a = a + 1
                 Adjancency_Matrix[From_Machine][To_Machine] = a
                 line_count += 1
+    return Adjancency_Matrix
+
+if __name__ == "__main__":
+
+    Adjancency_Matrix = calculate_adjacency_matrix()
 
     with open('MachineID_MachineName.txt', mode='r') as Machine_file:
         machine_id_list = []
