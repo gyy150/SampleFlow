@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
 
 
-    print(G.nodes.data())
+
     isolated_nodes = list(nx.isolates(G))
     nonisolated_nodes = [ ]
     for node in G.nodes:
@@ -58,12 +58,73 @@ if __name__ == "__main__":
 
 
 
+    sum_of_depth_in_path = [0 for i in range(len(machine_name_list))]
+    appearence_in_path = [0 for i in range(len(machine_name_list))]
+    average_depth_score = [0 for i in range(len(machine_name_list))]
+
+    for end_node in end_nodes:
+        for path in nx.all_simple_paths(G, source=0, target=end_node):
+            for index, node_in_path in enumerate(path):
+                sum_of_depth_in_path[node_in_path] += index
+                appearence_in_path[node_in_path] +=1
+            print( [G.nodes[n]['name'] for n in path])
+        print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+    for i in range(len(sum_of_depth_in_path)):
+        if appearence_in_path[i] > 0:
+            average_depth_score[i] = sum_of_depth_in_path[i] / appearence_in_path[i]
+
+    print('average_depth_score')
+    print(average_depth_score)
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    print('sum_of_depth_in_path')
+    print(sum_of_depth_in_path)
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+    depth_dict = {}
+    current_dict ={}
+    y_position = [-1 for i in range(len(machine_name_list))]
+
+    for i in range(len(average_depth_score)):
+        if average_depth_score[i] > 0:
+            depth_dict[average_depth_score[i]] = depth_dict.get(average_depth_score[i], 0) + 1
+
+    for i in range(len(average_depth_score)):
+        if average_depth_score[i] > 0:
+            current_dict[average_depth_score[i]] = current_dict.get(average_depth_score[i], 0) + 1
+            y_position[i] = current_dict[average_depth_score[i]]
+
+    print(depth_dict)
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+
+
+
+
+
+
+    sum_of_depth_in_path[0] = 1
+    y_position[0] = 1
+    print(sum_of_depth_in_path)
+    print(y_position)
+
+    for i in range(len(machine_name_list)):
+        if sum_of_depth_in_path[i] == 0:
+            x = -1
+            y = -1
+        else:
+            x = average_depth_score[i]
+            y = y_position[i]
+        G.nodes[i]['pos'] = (x,y)
+
+    print(G.nodes.data())
 
     edges = G.edges()
     weights = [G[u][v]['sample_count'] for u, v in edges]
     weights = [weight / max(weights) * 5 for weight in weights]
     nx.draw(G,
-            pos=nx.spring_layout(G),
+            #pos=nx.spring_layout(G),
+            pos=nx.get_node_attributes(G, 'pos'),
             labels=nx.get_node_attributes(G, 'name'),
             nodelist=nonisolated_nodes,
             font_size=8,
