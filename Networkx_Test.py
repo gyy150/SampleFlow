@@ -1,25 +1,74 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import Process_CSV
+
 
 if __name__ == "__main__":
-    G = nx.Graph()
-    G.add_node(1)
-    G.add_nodes_from([2, 3])
-    G.add_edge(1, 2)
-    e = (2, 3)
-    G.add_edge(*e)
-    G.add_edges_from([(1, 2), (1, 3)])
-    G.clear()
+    #  edge directed graph
+    G = nx.DiGraph()
+    Adjancency_Matrix = Process_CSV.calculate_adjacency_matrix()
 
-    G.add_edges_from([(1, 2), (1, 3)])
-    G.add_node(1)
-    G.add_edge(1, 2)
-    G.add_node("spam")  # adds node "spam"
-    G.add_nodes_from("spam")  # adds 4 nodes: 's', 'p', 'a', 'm'
-    G.add_edge(3, 'm')
-    print( list(G.nodes))
+    with open('MachineID_MachineName.txt', mode='r') as Machine_file:
+        machine_id_list = []
+        machine_id_list.append(0)
+        machine_name_list = []
+        machine_name_list.append('start')
+        for line in Machine_file:
+            s_line = line.split('        ')
+            if len(s_line) > 1:
+                machine_id = s_line[0]
+                machine_id_list.append(machine_id)
+                machine_name = s_line[1].strip()
+                machine_name_list.append(machine_name)
 
-    FG = nx.Graph()
-    FG.add_weighted_edges_from([(1, 2, 0.125), (1, 3, 0.75), (2, 4, 1.2), (3, 4, 0.375)])
 
-    MG = nx.MultiGraph()
+
+    for i in range(len(machine_name_list)):
+        G.add_node(i,name = machine_name_list[i])
+
+
+    for i in range(len(Adjancency_Matrix)):
+        for j in range(len(Adjancency_Matrix)):
+            if Adjancency_Matrix[i][j] > 5:
+                G.add_edge(i, j, sample_count= Adjancency_Matrix[i][j])
+
+
+
+    print(G.nodes.data())
+    isolated_nodes = list(nx.isolates(G))
+    nonisolated_nodes = [ ]
+    for node in G.nodes:
+        if node not in isolated_nodes:
+            nonisolated_nodes.append(node)
+    isolated_machines = [G.nodes[x]['name'] for x in isolated_nodes]
+    print(isolated_machines)
+
+    end_nodes = []
+    for node in nonisolated_nodes:
+        print(G.nodes[node]['name'])
+        neighbors = list(G.neighbors(node))
+        print(neighbors)
+        predecessors = list(G.predecessors(node))
+        print(predecessors)
+        print(list(G.out_edges(node)))
+        print(list(G.in_edges(node)))
+        if len(neighbors) == 1 and len(predecessors) == 1 and neighbors[0] == predecessors[0]:
+            end_nodes.append(node)
+    print( [G.nodes[x]['name'] for x in end_nodes])
+
+
+
+
+    edges = G.edges()
+    weights = [G[u][v]['sample_count'] for u, v in edges]
+    weights = [weight / max(weights) * 5 for weight in weights]
+    nx.draw(G,
+            pos=nx.spring_layout(G),
+            labels=nx.get_node_attributes(G, 'name'),
+            nodelist=nonisolated_nodes,
+            font_size=8,
+            node_size=75,
+            width=weights,
+            edge_color='r'
+            )
+    plt.show()
