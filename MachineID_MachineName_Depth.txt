@@ -1,0 +1,48 @@
+989         HP-M1500 1         	5
+990         HP-M1500 2         	5
+991         HP-M1500 3         	5
+992         HP-M1500 4        	5
+993         HP-M1500 5         	5
+994         WCSA1	
+995         WCSA2	
+996         WCSA_3	
+997         Roboter	
+998         HP-SCD	
+999         Magazine HP-M300	
+1000        Barcode scanner	
+1001        Sound Modul	
+1002        Buffer - Priority samples	
+1003        Buffer - Normal samples	
+1004        Buffer - Mixed samples	
+1005        10 Sample Magazine	
+1006        Scanner_WCSA_1	1
+1007        Scanner_WCSA_2	1
+1008        Scanner_WCSA_3	1
+1009        Transport1-1	
+1010        Transport1-2	
+1011        WCSA_MAG 1	
+1012        WCSA_MAG 1 internal	
+1013        WCSA_1 lift	
+1014        Transport2-1	
+1015        Transport2-2	
+1016        WCSA_MAG 2	
+1017        WCSA_MAG 2 internal	
+1018        WCSA_2 lift	
+1019        Transport from chamber 1	
+1020        Transport from chamber 2	
+1021        WCSA_MAG 3	
+1022        WCSA_MAG 3 internal	
+1023        WCSA_3 lift	
+1024        Host/1	
+1025        Sample lost	
+1026        Input-Output	
+1027        Cleaning	
+1028        Buffer	
+1029        Interlink	
+1030        HAG-Lift#1	
+1031        HAG-Lift#2	
+1032        HAG-Lift#3	
+1033        HAG-Lift#4	
+1034        Belt HP-SCD<->Magazine	
+1035        Belt Magazine<->HAG-6 HF	
+1036        Cleaning Device	
