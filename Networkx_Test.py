@@ -2,6 +2,9 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import Process_CSV
 
+# def machine_grouping_translation():
+#     with open('machine_grouping.txt', mode='r') as machine_grouping_file:
+#         for line in machine_file:
 
 if __name__ == "__main__":
     #  edge directed graph
