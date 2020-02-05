@@ -63,7 +63,8 @@ if __name__ == "__main__":
     average_depth_score = [0 for i in range(len(machine_name_list))]
     rounded_average_depth_score = [0 for i in range(len(machine_name_list))]
 
-    for end_node in end_nodes:
+
+    for end_node in nonisolated_nodes:
         for path in nx.all_simple_paths(G, source=0, target=end_node):
             for index, node_in_path in enumerate(path):
                 sum_of_depth_in_path[node_in_path] += index
@@ -71,6 +72,36 @@ if __name__ == "__main__":
             print([n for n in path])
             print( [G.nodes[n]['name'] for n in path])
         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    print('##############################################################################################')
+
+    # for end_node in end_nodes:
+    #     for path in nx.all_simple_paths(G, source=0, target=end_node):
+    #         for index, node_in_path in enumerate(path):
+    #             sum_of_depth_in_path[node_in_path] += index
+    #             appearence_in_path[node_in_path] +=1
+    #         print([n for n in path])
+    #         print( [G.nodes[n]['name'] for n in path])
+    #     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    # print('##############################################################################################')
+    #
+    # left_over_machines = []
+    # for i in range(len(appearence_in_path)):
+    #     if appearence_in_path[i] == 0 and i not in isolated_machines:
+    #         left_over_machines.append(i)
+    # print('left_over_machines')
+    # print(left_over_machines)
+    #
+    # for end_node in left_over_machines:
+    #     for path in nx.all_simple_paths(G, source=0, target=end_node):
+    #         for index, node_in_path in enumerate(path):
+    #             sum_of_depth_in_path[node_in_path] += index
+    #             appearence_in_path[node_in_path] +=1
+    #         print([n for n in path])
+    #         print([G.nodes[n]['name'] for n in path])
+    #
+    #         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    # print('##############################################################################################')
+
 
     for i in range(len(sum_of_depth_in_path)):
         if appearence_in_path[i] > 0:
@@ -79,6 +110,12 @@ if __name__ == "__main__":
 
     print('average_depth_score')
     print(average_depth_score)
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    print('appearence_in_path')
+    print(appearence_in_path)
+
+
+
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     print('rounded_average_depth_score')
     print(rounded_average_depth_score)
@@ -118,10 +155,9 @@ if __name__ == "__main__":
     print('transformed_x_position')
     print(transformed_x_position)
 
-    
+
 
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-
     for i in range(len(machine_name_list)):
         if i in isolated_nodes == 0:
             x = -1
@@ -141,8 +177,8 @@ if __name__ == "__main__":
             pos=nx.get_node_attributes(G, 'pos'),
             labels=nx.get_node_attributes(G, 'name'),
             nodelist=nonisolated_nodes,
-            font_size=8,
-            node_size=75,
+            font_size=9,
+            node_size=60,
             width=weights,
             edge_color='r'
             )

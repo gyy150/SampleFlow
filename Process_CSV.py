@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 
+sample_flow_file = 'flow.csv'
 Start_Machine_Number = 989
 End_Machine_Number = 1036
 Total_Machine = End_Machine_Number - Start_Machine_Number + 1 + 1
@@ -10,7 +11,7 @@ Total_Machine = End_Machine_Number - Start_Machine_Number + 1 + 1
 def calculate_adjacency_matrix():
     Adjancency_Matrix = [[0 for i in range(Total_Machine)] for j in range(Total_Machine)]
 
-    with open('sample_flow.csv', mode='r') as csv_file:
+    with open(sample_flow_file, mode='r') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
