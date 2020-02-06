@@ -20,10 +20,7 @@ def MACHINE_GROUPING_TRANSLATION():
             if len(row) >1 :
                 machine_name_group_dic[row[1]] = row[0]
 
-    machine_name_group_list = set(val for dic in machine_name_group_dic for val in machine_name_group_dic.values())
 
-    for index, value in enumerate(machine_name_group_list):
-        machine_name_group_id_dict[value] = index
 
 def MACHINE_Name():
     with open('MachineID_MachineName.txt', mode='r') as Machine_file:
@@ -58,13 +55,16 @@ def Translate_Flow():
 
                         if From_Machine == -1:
                             From_Machine = 0
-                        if From_Machine not in machine_dict:
-                            print()
-                        elif To_Machine not in machine_dict :
-                            print()
-                        elif From_Machine in machine_dict and To_Machine in machine_dict :
+
+                        if From_Machine in machine_dict and To_Machine in machine_dict:
                             From_Machine_Name = machine_dict[From_Machine]
                             To_Machine_Name = machine_dict[To_Machine]
+
+                            if From_Machine_Name not in machine_name_group_dic:
+                                machine_name_group_dic[From_Machine_Name] = From_Machine_Name
+                            if To_Machine_Name not in machine_name_group_dic:
+                                machine_name_group_dic[To_Machine_Name] = To_Machine_Name
+
                             if From_Machine_Name in machine_name_group_dic  and To_Machine_Name in machine_name_group_dic:
                                 From_Machine_Group = machine_name_group_dic[From_Machine_Name]
                                 To_Machine_Name_Group = machine_name_group_dic[To_Machine_Name]
@@ -72,8 +72,12 @@ def Translate_Flow():
                                 translated_file.write(f'\t{row[0]},{row[1]},{From_Machine_Group},{To_Machine_Name_Group}\n')
                                 if From_Machine_Group != To_Machine_Name_Group:
                                     dup_removed_translated_file.write(f'\t{row[0]},{row[1]},{From_Machine_Group},{To_Machine_Name_Group}\n')
+
                         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
+    machine_name_group_list = set(val for dic in machine_name_group_dic for val in machine_name_group_dic.values())
+    for index, value in enumerate(machine_name_group_list):
+        machine_name_group_id_dict[value] = index
 
 def calculate_adjacency_matrix_from_translated_sample_flow(sample_flow_file):
     Total_Machine = len(machine_name_group_dic)
